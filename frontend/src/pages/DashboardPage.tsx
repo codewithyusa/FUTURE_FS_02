@@ -31,6 +31,10 @@ export default function DashboardPage() {
     <>
       <Navbar />
       <div className="container">
+        <div className="page-head">
+          <h1>Leads</h1>
+          <p className="muted">Manage and track your client leads</p>
+        </div>
         <StatsCards leads={leads} />
         <LeadFilters status={status} search={search} onStatus={setStatus} onSearch={setSearch} />
         <LeadTable leads={visible} onChange={load} />
