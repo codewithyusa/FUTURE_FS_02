@@ -17,13 +17,19 @@ export default function PublicContactPage() {
   };
 
   return (
-    <form className="card login" onSubmit={submit}>
-      <h2>Contact us</h2>
-      {sent && <p>Thanks! We will contact you soon.</p>}
-      <input name="name" placeholder="Your name" value={form.name} onChange={change} required />
-      <input name="email" type="email" placeholder="Email" value={form.email} onChange={change} required />
-      <input name="phone" placeholder="Phone (optional)" value={form.phone} onChange={change} />
-      <button>Send</button>
-    </form>
+    <div className="auth-page">
+      <form className="card auth-card" onSubmit={submit}>
+        <div className="logo"><span>M</span>Mini CRM</div>
+        <div>
+          <h2>Contact us</h2>
+          <p className="muted">Leave your details and we will get back to you</p>
+        </div>
+        {sent && <p className="success">Thanks! We will contact you soon.</p>}
+        <input name="name" placeholder="Your name" value={form.name} onChange={change} required />
+        <input name="email" type="email" placeholder="Email" value={form.email} onChange={change} required />
+        <input name="phone" placeholder="Phone (optional)" value={form.phone} onChange={change} />
+        <button>Send message</button>
+      </form>
+    </div>
   );
 }
