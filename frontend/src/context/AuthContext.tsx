@@ -16,7 +16,9 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token"),
+  );
 
   const login = async (email: string, password: string) => {
     const { data } = await api.post("/auth/login", { email, password });
@@ -29,5 +31,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(null);
   };
 
-  return <AuthContext.Provider value={{ token, login, logout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ token, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }

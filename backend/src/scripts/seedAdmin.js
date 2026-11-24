@@ -9,7 +9,7 @@ const Admin = require("../models/Admin");
   await Admin.findOneAndUpdate(
     { email: process.env.ADMIN_EMAIL },
     { email: process.env.ADMIN_EMAIL, password: hash },
-    { upsert: true }
+    { upsert: true },
   );
   console.log("Admin ready");
   process.exit();

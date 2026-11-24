@@ -2,7 +2,11 @@ const router = require("express").Router();
 const auth = require("../middleware/auth");
 const c = require("../controllers/leadController");
 const { leadLimiter } = require("../middleware/rateLimiter");
-const { validateLead, validateUpdate, validateNote } = require("../middleware/validate");
+const {
+  validateLead,
+  validateUpdate,
+  validateNote,
+} = require("../middleware/validate");
 
 router.post("/", leadLimiter, validateLead, c.createLead); // public contact form
 router.get("/", auth, c.getLeads);

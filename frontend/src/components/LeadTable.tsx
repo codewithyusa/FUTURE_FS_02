@@ -52,7 +52,9 @@ export default function LeadTable({ leads, onChange }: Props) {
             <tr key={l._id}>
               <td>
                 <Link to={`/leads/${l._id}`}>
-                  <span className="avatar">{l.name.charAt(0).toUpperCase()}</span>
+                  <span className="avatar">
+                    {l.name.charAt(0).toUpperCase()}
+                  </span>
                   {l.name}
                 </Link>
               </td>
@@ -62,7 +64,12 @@ export default function LeadTable({ leads, onChange }: Props) {
               <td>
                 <div className="row">
                   <StatusBadge status={l.status} />
-                  <select value={l.status} onChange={(e) => setStatus(l._id, e.target.value as LeadStatus)}>
+                  <select
+                    value={l.status}
+                    onChange={(e) =>
+                      setStatus(l._id, e.target.value as LeadStatus)
+                    }
+                  >
                     <option value="new">new</option>
                     <option value="contacted">contacted</option>
                     <option value="converted">converted</option>
@@ -70,13 +77,17 @@ export default function LeadTable({ leads, onChange }: Props) {
                 </div>
               </td>
               <td>
-                <button className="danger" onClick={() => remove(l._id)}>Delete</button>
+                <button className="danger" onClick={() => remove(l._id)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
           {!leads.length && (
             <tr>
-              <td colSpan={6} className="empty">No leads found</td>
+              <td colSpan={6} className="empty">
+                No leads found
+              </td>
             </tr>
           )}
         </tbody>

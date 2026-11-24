@@ -59,32 +59,70 @@ export default function LeadDetailPage() {
             <p className="error">{error}</p>
           </div>
         ) : !lead ? (
-          <div className="center"><div className="spinner" /></div>
+          <div className="center">
+            <div className="spinner" />
+          </div>
         ) : (
           <>
             <div className="card" style={{ marginTop: 12 }}>
               {editing ? (
                 <form className="row" onSubmit={save}>
-                  <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Name" required />
-                  <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="Email" required />
-                  <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="Phone" />
+                  <input
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="Name"
+                    required
+                  />
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
+                    placeholder="Email"
+                    required
+                  />
+                  <input
+                    value={form.phone}
+                    onChange={(e) =>
+                      setForm({ ...form, phone: e.target.value })
+                    }
+                    placeholder="Phone"
+                  />
                   <button>Save</button>
-                  <button type="button" className="btn-light" onClick={() => setEditing(false)}>Cancel</button>
+                  <button
+                    type="button"
+                    className="btn-light"
+                    onClick={() => setEditing(false)}
+                  >
+                    Cancel
+                  </button>
                 </form>
               ) : (
                 <>
-                  <div className="row" style={{ justifyContent: "space-between" }}>
+                  <div
+                    className="row"
+                    style={{ justifyContent: "space-between" }}
+                  >
                     <div className="row">
-                      <span className="avatar">{lead.name.charAt(0).toUpperCase()}</span>
+                      <span className="avatar">
+                        {lead.name.charAt(0).toUpperCase()}
+                      </span>
                       <h2>{lead.name}</h2>
                     </div>
                     <div className="row">
                       <StatusBadge status={lead.status} />
-                      <button className="btn-light" onClick={startEdit}>Edit</button>
+                      <button className="btn-light" onClick={startEdit}>
+                        Edit
+                      </button>
                     </div>
                   </div>
-                  <p className="muted">{lead.email} | {lead.phone || "no phone"} | {lead.source}</p>
-                  <p className="muted">Added {new Date(lead.createdAt).toLocaleString()}</p>
+                  <p className="muted">
+                    {lead.email} | {lead.phone || "no phone"} | {lead.source}
+                  </p>
+                  <p className="muted">
+                    Added {new Date(lead.createdAt).toLocaleString()}
+                  </p>
                 </>
               )}
             </div>

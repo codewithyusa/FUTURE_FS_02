@@ -35,19 +35,30 @@ export default function DashboardPage() {
     load();
   }, [load]);
 
-  const changeStatus = (v: string) => { setStatus(v); setPage(1); };
-  const changeSearch = (v: string) => { setSearch(v); setPage(1); };
+  const changeStatus = (v: string) => {
+    setStatus(v);
+    setPage(1);
+  };
+  const changeSearch = (v: string) => {
+    setSearch(v);
+    setPage(1);
+  };
 
   const q = search.toLowerCase();
   const visible = leads.filter(
     (l) =>
       (!status || l.status === status) &&
-      (!q || l.name.toLowerCase().includes(q) || l.email.toLowerCase().includes(q))
+      (!q ||
+        l.name.toLowerCase().includes(q) ||
+        l.email.toLowerCase().includes(q)),
   );
 
   const pages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
   const current = Math.min(page, pages);
-  const pageItems = visible.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
+  const pageItems = visible.slice(
+    (current - 1) * PAGE_SIZE,
+    current * PAGE_SIZE,
+  );
 
   return (
     <>
@@ -58,24 +69,42 @@ export default function DashboardPage() {
             <h1>Leads</h1>
             <p className="muted">Manage and track your client leads</p>
           </div>
-          <button className="btn-light" disabled={!visible.length} onClick={() => exportCsv(visible)}>
+          <button
+            className="btn-light"
+            disabled={!visible.length}
+            onClick={() => exportCsv(visible)}
+          >
             Export CSV
           </button>
         </div>
 
         {loading ? (
-          <div className="center"><div className="spinner" /></div>
+          <div className="center">
+            <div className="spinner" />
+          </div>
         ) : error ? (
           <div className="card">
             <p className="error">{error}</p>
-            <button style={{ marginTop: 12 }} onClick={load}>Retry</button>
+            <button style={{ marginTop: 12 }} onClick={load}>
+              Retry
+            </button>
           </div>
         ) : (
           <>
             <StatsCards leads={leads} />
-            <LeadFilters status={status} search={search} onStatus={changeStatus} onSearch={changeSearch} />
+            <LeadFilters
+              status={status}
+              search={search}
+              onStatus={changeStatus}
+              onSearch={changeSearch}
+            />
             <LeadTable leads={pageItems} onChange={load} />
-            <Pagination page={current} pages={pages} total={visible.length} onPage={setPage} />
+            <Pagination
+              page={current}
+              pages={pages}
+              total={visible.length}
+              onPage={setPage}
+            />
           </>
         )}
       </div>

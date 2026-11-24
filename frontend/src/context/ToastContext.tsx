@@ -1,8 +1,20 @@
-import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+  type ReactNode,
+} from "react";
 
 type ToastType = "success" | "error";
-interface Toast { id: number; message: string; type: ToastType }
-interface ToastValue { notify: (message: string, type?: ToastType) => void }
+interface Toast {
+  id: number;
+  message: string;
+  type: ToastType;
+}
+interface ToastValue {
+  notify: (message: string, type?: ToastType) => void;
+}
 
 const ToastContext = createContext<ToastValue | null>(null);
 
@@ -26,7 +38,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <div className="toasts">
         {toasts.map((t) => (
-          <div key={t.id} className={`toast ${t.type}`}>{t.message}</div>
+          <div key={t.id} className={`toast ${t.type}`}>
+            {t.message}
+          </div>
         ))}
       </div>
     </ToastContext.Provider>

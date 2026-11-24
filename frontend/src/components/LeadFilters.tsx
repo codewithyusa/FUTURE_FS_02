@@ -5,7 +5,12 @@ interface Props {
   onSearch: (v: string) => void;
 }
 
-export default function LeadFilters({ status, search, onStatus, onSearch }: Props) {
+export default function LeadFilters({
+  status,
+  search,
+  onStatus,
+  onSearch,
+}: Props) {
   return (
     <div className="row" style={{ marginBottom: 16 }}>
       <input
