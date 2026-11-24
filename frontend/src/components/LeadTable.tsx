@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import api from "../api/client";
 import type { Lead, LeadStatus } from "../types/lead";
 import StatusBadge from "./StatusBadge";
+import { useToast } from "../context/ToastContext";
+import { getError } from "../utils/getError";
 
 interface Props {
   leads: Lead[];
@@ -9,15 +11,26 @@ interface Props {
 }
 
 export default function LeadTable({ leads, onChange }: Props) {
+  const { notify } = useToast();
+
   const setStatus = async (id: string, status: LeadStatus) => {
-    await api.patch(`/leads/${id}`, { status });
-    onChange();
+    try {
+      await api.patch(`/leads/${id}`, { status });
+      notify("Status updated");
+      onChange();
+    } catch (err) {
+      notify(getError(err), "error");
+    }
   };
 
   const remove = async (id: string) => {
-    if (confirm("Delete this lead?")) {
+    if (!confirm("Delete this lead?")) return;
+    try {
       await api.delete(`/leads/${id}`);
+      notify("Lead deleted");
       onChange();
+    } catch (err) {
+      notify(getError(err), "error");
     }
   };
 

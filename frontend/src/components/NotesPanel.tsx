@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
 import api from "../api/client";
 import type { Lead } from "../types/lead";
+import { useToast } from "../context/ToastContext";
+import { getError } from "../utils/getError";
 
 interface Props {
   lead: Lead;
@@ -9,13 +11,19 @@ interface Props {
 
 export default function NotesPanel({ lead, onChange }: Props) {
   const [text, setText] = useState("");
+  const { notify } = useToast();
 
   const add = async (e: FormEvent) => {
     e.preventDefault();
     if (!text.trim()) return;
-    await api.post(`/leads/${lead._id}/notes`, { text });
-    setText("");
-    onChange();
+    try {
+      await api.post(`/leads/${lead._id}/notes`, { text });
+      setText("");
+      notify("Note added");
+      onChange();
+    } catch (err) {
+      notify(getError(err), "error");
+    }
   };
 
   return (
