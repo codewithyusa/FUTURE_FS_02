@@ -20,16 +20,23 @@ export default function NotesPanel({ lead, onChange }: Props) {
 
   return (
     <div className="card">
-      <h3>Notes</h3>
+      <h3 style={{ marginBottom: 12 }}>Notes</h3>
       <form className="row" onSubmit={add}>
-        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Add a note..." />
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Add a note..."
+          style={{ flex: 1 }}
+        />
         <button>Add</button>
       </form>
       {[...lead.notes].reverse().map((n) => (
-        <p key={n._id}>
-          {n.text} <small>{new Date(n.createdAt).toLocaleString()}</small>
+        <p className="note" key={n._id}>
+          {n.text}
+          <small>{new Date(n.createdAt).toLocaleString()}</small>
         </p>
       ))}
+      {!lead.notes.length && <p className="muted">No notes yet</p>}
     </div>
   );
 }
