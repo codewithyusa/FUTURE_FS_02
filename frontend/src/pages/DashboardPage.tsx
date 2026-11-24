@@ -5,15 +5,25 @@ import Navbar from "../components/Navbar";
 import StatsCards from "../components/StatsCards";
 import LeadFilters from "../components/LeadFilters";
 import LeadTable from "../components/LeadTable";
+import { getError } from "../utils/getError";
 
 export default function DashboardPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const load = useCallback(async () => {
-    const { data } = await api.get<Lead[]>("/leads");
-    setLeads(data);
+    try {
+      const { data } = await api.get<Lead[]>("/leads");
+      setLeads(data);
+      setError("");
+    } catch (err) {
+      setError(getError(err, "Could not load leads"));
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -35,9 +45,21 @@ export default function DashboardPage() {
           <h1>Leads</h1>
           <p className="muted">Manage and track your client leads</p>
         </div>
-        <StatsCards leads={leads} />
-        <LeadFilters status={status} search={search} onStatus={setStatus} onSearch={setSearch} />
-        <LeadTable leads={visible} onChange={load} />
+
+        {loading ? (
+          <div className="center"><div className="spinner" /></div>
+        ) : error ? (
+          <div className="card">
+            <p className="error">{error}</p>
+            <button style={{ marginTop: 12 }} onClick={load}>Retry</button>
+          </div>
+        ) : (
+          <>
+            <StatsCards leads={leads} />
+            <LeadFilters status={status} search={search} onStatus={setStatus} onSearch={setSearch} />
+            <LeadTable leads={visible} onChange={load} />
+          </>
+        )}
       </div>
     </>
   );
