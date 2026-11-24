@@ -3,6 +3,7 @@ const cors = require("cors");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
 app.use(express.json());
 
