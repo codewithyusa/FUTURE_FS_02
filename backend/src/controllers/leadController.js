@@ -1,7 +1,10 @@
 const Lead = require("../models/Lead");
 
 exports.createLead = async (req, res, next) => {
-  try { res.status(201).json(await Lead.create(req.body)); } catch (e) { next(e); }
+  try {
+    const { name, email, phone, source } = req.body;
+    res.status(201).json(await Lead.create({ name, email, phone, source }));
+  } catch (e) { next(e); }
 };
 
 exports.getLeads = async (req, res, next) => {
@@ -21,7 +24,11 @@ exports.getLead = async (req, res, next) => {
 
 exports.updateLead = async (req, res, next) => {
   try {
-    const lead = await Lead.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const { name, email, phone, status } = req.body;
+    const updates = Object.fromEntries(
+      Object.entries({ name, email, phone, status }).filter(([, v]) => v !== undefined)
+    );
+    const lead = await Lead.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
     if (!lead) return res.status(404).json({ message: "Lead not found" });
     res.json(lead);
   } catch (e) { next(e); }
