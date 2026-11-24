@@ -7,7 +7,7 @@ interface Props {
 
 export default function LeadFilters({ status, search, onStatus, onSearch }: Props) {
   return (
-    <div className="row" style={{ marginBottom: 12 }}>
+    <div className="row" style={{ marginBottom: 16 }}>
       <input
         placeholder="Search name or email..."
         value={search}
